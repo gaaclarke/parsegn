@@ -15,10 +15,8 @@ class Printer(GNListener):
     print("import '%s'" % importPath)
   def enterRule_stmt(self, ctx):
     ruleType = ctx.getChild(0).symbol.text
-    name = ""
     nameString = ctx.getChild(0, GNParser.StringContext)
-    if nameString != None:
-      name = nameString.getText()[1:-1]
+    name = "" if nameString == None else nameString.getText()[1:-1]
     print("%s '%s'" % (ruleType, name))
 
 def main():
