@@ -8,13 +8,18 @@ from GNLexer import GNLexer
 from GNParser import GNParser
 from GNListener import GNListener
 
+
 class Printer(GNListener):
-  def enterGn_file(self, ctx):
-    print("enter gn file")
   def enterImport_stmt(self, ctx):
-    print("import")
+    importPath =  ctx.getChild(0, GNParser.StringContext).getText()[1:-1]
+    print("import '%s'" % importPath)
   def enterRule_stmt(self, ctx):
-    print("enter rule" + str(type(ctx)))
+    ruleType = ctx.getChild(0).symbol.text
+    name = ""
+    nameString = ctx.getChild(0, GNParser.StringContext)
+    if nameString != None:
+      name = nameString.getText()[1:-1]
+    print("%s '%s'" % (ruleType, name))
 
 def main():
   input_stream = FileStream(sys.argv[1])
